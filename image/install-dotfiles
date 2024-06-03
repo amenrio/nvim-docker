@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+git clone --bare https://andres.mendez:Andr35.m3n@gitlab.antaruxa.com/andres.mendez/dotfiles.git $HOME/.dotfiles
+
+function dotfiles {
+   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@
+}
+mkdir -p .dotfiles-backup
+dotfiles checkout docker_dev_env
+if [ $? = 0 ]; then
+  echo "Checked out config.";
+  else
+    echo "Backing up pre-existing dot files.";
+    config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .config-backup/{}
+fi;
+dotfiles checkout docker_dev_env
+dotfiles config status.showUntrackedFiles no
+

@@ -1,0 +1,8 @@
+services:
+  mynvim:
+    image: amenrio/nvim-ide:latest
+    build: ./image
+    volumes:
+      - ~/work:/root/workspace
+
+
